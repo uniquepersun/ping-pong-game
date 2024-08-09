@@ -12,7 +12,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Pong")
+pygame.display.set_caption("pong-pong")
 
 def draw_objects(left_paddle, right_paddle, ball):
     screen.fill(BLACK)
@@ -39,6 +39,49 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w] and left_paddle.top > 0:
+            left_paddle.y -= PADDLE_SPEED
+        if keys[pygame.K_s] and left_paddle.bottom < HEIGHT:
+            left_paddle.y += PADDLE_SPEED
+        if keys[pygame.K_UP] and right_paddle.top > 0:
+            right_paddle.y -= PADDLE_SPEED
+        if keys[pygame.K_DOWN] and right_paddle.bottom < HEIGHT:
+            right_paddle.y += PADDLE_SPEED
+
+        ball.x += ball_dx
+        ball.y += ball_dy
+
+        if ball.top <= 0 or ball.bottom >= HEIGHT:
+            ball_dy = -ball_dy
+
+        if ball.colliderect(left_paddle) or ball.colliderect(right_paddle):
+            ball_dx = -ball_dx
+
+        if ball.left <= 0:
+            right_score += 1
+            ball.x = WIDTH // 2 - BALL_SIZE // 2
+            ball.y = HEIGHT // 2 - BALL_SIZE // 2
+            ball_dx = -BALL_SPEED_X
+            ball_dy = BALL_SPEED_Y
+
+        if ball.right >= WIDTH:
+            left_score += 1
+            ball.x = WIDTH // 2 - BALL_SIZE // 2
+            ball.y = HEIGHT // 2 - BALL_SIZE // 2
+            ball_dx = BALL_SPEED_X
+            ball_dy = BALL_SPEED_Y
+
+        draw_objects(left_paddle, right_paddle, ball)
+
+        score_display = font.render(f"{left_score}  {right_score}", True, WHITE)
+        screen.blit(score_display, (WIDTH // 2 - score_display.get_width() // 2, 20))
+        pygame.display.flip()
+
+        clock.tick(60)  
+
+    pygame.quit()
 
 
 if __name__ == "__main__":
