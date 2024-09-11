@@ -24,8 +24,7 @@ Score points when your opponent misses, but beware—the computer won’t go eas
 
 ## Some screenshots for you :)
 - watch it in action!
-    - [here]()
-    - [another!]()
+    - [here](https://github.com/user-attachments/assets/2a7d77ef-b190-483f-bf45-b2e0c4bf2c26)
 
 
 ## :wink: contact me!! :v::heart:
